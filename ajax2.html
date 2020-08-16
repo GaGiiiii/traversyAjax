@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax 2 - JSON</title>
+</head>
+<body>
+    
+    <button id="button">Get User</button>
+    <button id="button2">Get Users</button>
+
+    <script>
+
+        const button = document.getElementById('button');
+        const button2 = document.getElementById('button2');
+        button.addEventListener('click', loadUser);
+        button2.addEventListener('click', loadUsers);
+
+        function loadUser(){
+            let xhr = new XMLHttpRequest();
+            
+            xhr.open('GET', 'user.json', true);
+
+            xhr.onload = () => { // If we use lambda expression we can't use this
+                if(xhr.status == 200){
+                    let user = JSON.parse(xhr.responseText);
+                    console.log(user.name);
+                }
+            }
+
+            xhr.onerror = () => {
+                console.log('Request Error.');
+            }
+
+            xhr.send();
+        }
+
+        function loadUsers(){
+            let xhr = new XMLHttpRequest();
+            
+            xhr.open('GET', 'users.json', true);
+
+            xhr.onload = () => { // If we use lambda expression we can't use this.status
+                if(xhr.status == 200){
+                    let users = JSON.parse(xhr.responseText);
+                    console.log(users[0]);
+                    console.log(users[1]);
+                    console.log(users[2]);
+                }
+            }
+
+            xhr.onerror = () => {
+                console.log('Request Error.');
+            }
+
+            xhr.send();
+        }
+
+    </script>
+
+</body>
+</html>

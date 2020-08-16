@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax 4 - PHP Forms</title>
+</head>
+<body>
+    
+    <button id="button">Get Name</button>
+
+    <h1>NORMAL GET FORM</h1>
+    <form method="GET" action="process.php">
+        <input type="text" name="name" id="name">
+        <input type="submit" name="submit" id="submit" value="Submit">
+    </form>
+
+    <h1>AJAX GET FORM</h1>
+    <form id="getForm">
+        <input type="text" name="name" id="name2">
+        <input type="submit" name="submit" id="submit2" value="Submit">
+    </form>
+
+    <h1>NORMAL POST FORM</h1>
+    <form method="POST" action="process.php">
+        <input type="text" name="name" id="name3">
+        <input type="submit" name="submit" id="submit3" value="Submit">
+    </form>
+
+    <h1>AJAX POST FORM</h1>
+    <form id="postForm">
+        <input type="text" name="name" id="name4">
+        <input type="submit" name="submit" id="submit4" value="Submit">
+    </form>
+
+
+    <script>
+
+        const button = document.getElementById('button');
+        const form = document.getElementById('getForm');
+        const form2 = document.getElementById('postForm');
+        button.addEventListener('click', loadName);
+        form.addEventListener('submit', loadNameGet);
+        form2.addEventListener('submit', loadNamePost);
+
+        function loadName(){
+            let xhr = new XMLHttpRequest();
+            
+            xhr.open('GET', 'process.php?name=Dzadzi', true);
+
+            xhr.onload = () => { // If we use lambda expression we can't use this.status
+                if(xhr.status == 200){
+                    console.log(xhr.responseText);
+                }
+            }
+
+            xhr.onerror = () => {
+                console.log('Request Error.');
+            }
+
+            xhr.send();
+        }
+
+        function loadNameGet(event){
+            event.preventDefault();
+
+            let xhr = new XMLHttpRequest();
+            let name = document.getElementById('name2');
+            
+            xhr.open('GET', 'process.php?name=' + name.value, true);
+
+            xhr.onload = () => { // If we use lambda expression we can't use this.status
+                if(xhr.status == 200){
+                    console.log(xhr.responseText);
+                }
+            }
+
+            xhr.onerror = () => {
+                console.log('Request Error.');
+            }
+
+            xhr.send();
+        }
+
+        function loadNamePost(event){
+            event.preventDefault();
+
+            let xhr = new XMLHttpRequest();
+            let name = document.getElementById('name4');
+            let params = 'name=' + name.value;
+
+            xhr.open('POST', 'process.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = () => { // If we use lambda expression we can't use this.status
+                if(xhr.status == 200){
+                    console.log(xhr.responseText);
+                }
+            }
+
+            xhr.onerror = () => {
+                console.log('Request Error.');
+            }
+
+            xhr.send(params);
+        }
+
+    </script>
+
+</body>
+</html>

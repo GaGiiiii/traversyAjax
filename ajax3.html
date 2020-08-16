@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax 3 - External API</title>
+</head>
+<body>
+    
+    <button id="button">Get Github Users</button>
+
+    <script>
+
+        const button = document.getElementById('button');
+        button.addEventListener('click', loadGithubUsers);
+
+        function loadGithubUsers(){
+            let xhr = new XMLHttpRequest();
+            
+            xhr.open('GET', 'https://api.github.com/users', true);
+
+            xhr.onload = () => { // If we use lambda expression we can't use this.status
+                if(xhr.status == 200){
+                    let users = JSON.parse(xhr.responseText);
+                    console.log(users);
+                }
+            }
+
+            xhr.onerror = () => {
+                console.log('Request Error.');
+            }
+
+            xhr.send();
+        }
+
+    </script>
+
+</body>
+</html>
